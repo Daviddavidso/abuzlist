@@ -1,5 +1,5 @@
 /* ==========================================================================
-   абузлист — стили
+   финвитрина — стили
    Порядок: токены → база → утилиты → шапка → первый экран → фильтры →
             каталог → как это работает → FAQ → подвал → модалка → адаптив
    ========================================================================== */
@@ -43,13 +43,6 @@
   --chip-text-selected:#ffffff;
   --chip-border:#8c8681;
   --chip-border-selected:#12100f;
-
-  /* сложность */
-  --diff-easy-bg:#e7f4ec;  --diff-easy-text:#14532d;  --diff-easy-mark:#166534;
-  --diff-med-bg:#fbf0dd;   --diff-med-text:#7c4a03;   --diff-med-mark:#92400e;
-  --diff-hard-bg:#fbe9e7;  --diff-hard-text:#a3170f;  --diff-hard-mark:#a3170f;
-
-  --success:#14532d;
 
   /* тёмные поверхности: шапка, первый экран, подвал */
   --ink-line:#2a2522;
@@ -290,7 +283,7 @@ input:focus-visible,select:focus-visible{outline-offset:1px}
 
 .hero h1{
   color:#fff;
-  font-size:clamp(46px,9.4vw,118px);
+  font-size:clamp(40px,7.8vw,96px);
   line-height:.94;letter-spacing:-.045em;font-weight:600;
   margin-block:22px 26px;
   text-wrap:balance;
@@ -434,6 +427,11 @@ input:focus-visible,select:focus-visible{outline-offset:1px}
 .offers__head{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-block-end:26px}
 .results-count{font-size:14.5px;color:var(--text-muted);font-variant-numeric:tabular-nums}
 
+.offers__disclaimer{
+  max-width:78ch;margin-block-end:20px;
+  font-size:13.5px;color:var(--text-muted);
+}
+
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
 
 .card{
@@ -463,38 +461,16 @@ input:focus-visible,select:focus-visible{outline-offset:1px}
 }
 .badge--hot{border-color:var(--text-heading);color:var(--text-heading)}
 
-.card__meta{
-  display:grid;grid-template-columns:auto auto auto;gap:2px 22px;
+.card__specs{
+  display:grid;grid-template-columns:1fr 1fr;gap:13px 20px;
   margin-block-start:18px;padding-block-start:16px;
   border-block-start:1px solid var(--border-hairline);
 }
-.card__meta dt{grid-row:1;font-size:12.5px;color:var(--text-muted)}
-.card__meta dd{grid-row:2;font-size:14.5px;color:var(--text-heading);display:flex;align-items:baseline;gap:7px}
-
-.payout{font-size:19px;font-weight:500;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.payout__note{display:block;font-size:12px;font-weight:400;color:var(--text-muted);letter-spacing:0}
-
-.diff{font-size:14.5px}
-.card__time{font-size:14.5px;color:var(--text-heading);font-variant-numeric:tabular-nums}
-
-.card__promo{
-  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-  margin-block-start:16px;
-  font-size:13.5px;color:var(--text-muted);
+.spec dt{font-size:12.5px;color:var(--text-muted);line-height:1.3}
+.spec dd{
+  font-size:16px;font-weight:500;color:var(--text-heading);
+  margin-block-start:2px;letter-spacing:-.015em;font-variant-numeric:tabular-nums;
 }
-.card__promo code{
-  font-family:inherit;font-size:14.5px;color:var(--text-heading);letter-spacing:.01em;
-}
-.btn-copy{
-  display:inline-flex;align-items:center;gap:6px;
-  margin-inline-start:auto;min-block-size:44px;padding:0 12px;
-  background:transparent;border:1px solid var(--border-strong);border-radius:8px;
-  font-size:13.5px;color:var(--text-heading);cursor:pointer;
-}
-.btn-copy:hover{background:var(--surface-sunken);border-color:var(--text-heading)}
-.btn-copy .ico-check{display:none}
-.btn-copy.is-done .ico-copy{display:none}
-.btn-copy.is-done .ico-check{display:block;color:var(--success)}
 
 .card__actions{display:flex;gap:8px;margin-block-start:auto;padding-block-start:16px}
 .card__actions .btn{flex:1 1 auto;padding-inline:12px}
@@ -602,20 +578,6 @@ input:focus-visible,select:focus-visible{outline-offset:1px}
 }
 
 /* ==========================================================================
-   Тост
-   ========================================================================== */
-.toast{
-  position:fixed;inset-block-end:24px;inset-inline-start:50%;z-index:200;
-  translate:-50% 12px;opacity:0;pointer-events:none;
-  max-inline-size:min(92vw,420px);
-  padding:13px 18px;border-radius:10px;
-  background:var(--success);color:#fff;font-size:14.5px;
-  box-shadow:0 12px 32px -12px rgba(18,16,15,.55);
-  transition:opacity .18s ease-out,translate .18s ease-out;
-}
-.toast.is-visible{opacity:1;translate:-50% 0}
-
-/* ==========================================================================
    Модальное окно
    ========================================================================== */
 .dlg{
@@ -649,12 +611,15 @@ input:focus-visible,select:focus-visible{outline-offset:1px}
 .dlg__lead{font-size:15px;color:var(--text-body)}
 
 .dlg__facts{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px 12px;
-  margin-block:22px;padding-block:16px;
+  display:grid;grid-template-columns:1fr 1fr;gap:14px 20px;
+  margin-block:22px;padding-block:18px;
   border-block:1px solid var(--border-hairline);
 }
-.dlg__facts dt{grid-row:1;font-size:12.5px;color:var(--text-muted)}
-.dlg__facts dd{grid-row:2;font-size:15.5px;color:var(--text-heading);display:flex;align-items:baseline;gap:7px}
+.dlg__facts dt{font-size:12.5px;color:var(--text-muted)}
+.dlg__facts dd{
+  font-size:16.5px;font-weight:500;color:var(--text-heading);
+  margin-block-start:2px;letter-spacing:-.015em;font-variant-numeric:tabular-nums;
+}
 
 .dlg h3{margin-block:24px 12px;font-size:14px;color:var(--text-muted);font-weight:400;letter-spacing:0}
 .dlg ol{counter-reset:s;display:grid;gap:11px}
@@ -686,8 +651,6 @@ input:focus-visible,select:focus-visible{outline-offset:1px}
    ========================================================================== */
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;animation-iteration-count:1!important}
-  .toast{translate:-50% 0;transition:opacity 1ms linear}
-  .toast.is-visible{translate:-50% 0}
   .skip-link{transition:none}
   html{scroll-behavior:auto}
 }

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   абузлист — логика каталога
+   финвитрина — логика каталога
    Ничего править не нужно: весь контент лежит в data.js
    ========================================================================== */
 (function () {
@@ -11,26 +11,12 @@
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
-  const rub = (n) => n.toLocaleString('ru-RU').replace(/ /g, ' ') + ' ₽';
-
-  /* «оффер / оффера / офферов» */
+  /* «предложение / предложения / предложений» */
   const plural = (n, a, b, c) => {
     const x = n % 10, y = n % 100;
     return (x === 1 && y !== 11) ? a : (x >= 2 && x <= 4 && (y < 10 || y >= 20)) ? b : c;
   };
-  const wordOffers = (n) => plural(n, 'оффер', 'оффера', 'офферов');
-
-  const DIFF = {
-    easy:   { label: 'Легко',  dots: 1, rank: 1 },
-    medium: { label: 'Средне', dots: 2, rank: 2 },
-    hard:   { label: 'Сложно', dots: 3, rank: 3 },
-  };
-
-  /* ISO-длительность → минуты, для сортировки «сначала быстрые» */
-  const minutes = (iso) => {
-    const m = /^P(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?)?$/.exec(iso || '') || [];
-    return (+m[1] || 0) * 1440 + (+m[2] || 0) * 60 + (+m[3] || 0);
-  };
+  const wordItems = (n) => plural(n, 'предложение', 'предложения', 'предложений');
 
   /* --- узлы страницы ---------------------------------------------------- */
   const grid       = $('#offer-grid');
@@ -43,8 +29,6 @@
   const emptyEl    = $('#empty-state');
   const offersH    = $('#offers-h');
   const srStatus   = $('#sr-filter-status');
-  const srToast    = $('#sr-toast-status');
-  const toast      = $('#toast');
   const resetTop   = $('#reset-top');
 
   const dlg      = $('#offer-dialog');
@@ -53,7 +37,7 @@
   const dlgBody  = $('#dlg-body');
   const dlgFoot  = $('#dlg-foot');
 
-  const items = OFFERS.filter((o) => !o.hidden);
+  const items = PRODUCTS.filter((o) => !o.hidden);
   const byId = new Map(items.map((o) => [o.id, o]));
   const catLabel = new Map(CATEGORIES.map((c) => [c.id, c.label]));
   const cards = [];
@@ -62,17 +46,18 @@
      1. Подстановка общих данных сайта
      ====================================================================== */
   function applySite() {
-    document.querySelectorAll('#header-tg, #feed-tg, #faq-tg, #footer-tg')
-      .forEach((a) => { a.href = SITE.telegram; });
     $('#hero-updated').textContent = SITE.updated;
     $('#hero-updated').dateTime = SITE.updatedISO;
     $('#logo-word').textContent = SITE.name;
     $('#footer-word').textContent = SITE.name;
+    $('#footer-copy-name').textContent = SITE.name;
     $('#year').textContent = String(new Date().getFullYear());
 
+    const mail = $('#footer-mail');
+    mail.textContent = SITE.email;
+    mail.href = 'mailto:' + SITE.email;
+
     $('#hero-count').textContent = items.length;
-    const sum = items.reduce((s, o) => s + (o.payout || 0), 0);
-    $('#hero-sum').textContent = rub(sum);
 
     $('#feed-list').innerHTML = FEED.map((f) =>
       `<li><b>${esc(f.date)}</b><span>${esc(f.text)}</span></li>`).join('');
@@ -80,16 +65,19 @@
     renderTicker();
   }
 
-  /* Бегущая строка брендов под заголовком.
-     Список дублируется дважды — за счёт этого прокрутка зацикливается без стыка.
-     Блок декоративный: он скрыт от скринридеров через aria-hidden в разметке. */
+  /* Бегущая строка с партнёрами. Список дублируется дважды — за счёт этого
+     прокрутка зацикливается без стыка. Блок декоративный: скрыт от
+     скринридеров через aria-hidden в разметке. */
   function renderTicker() {
-    const one = items.map((o) => `
+    const one = items.map((o) => {
+      const first = (o.specs && o.specs[0]) || ['', ''];
+      return `
       <span class="ticker__item">
         <span class="ticker__mono" style="background:${esc(o.tile || '#12100f')};color:${esc(o.tileInk || '#fff')}">${esc(o.mono || '')}</span>
         ${esc(o.brand)}
-        <span class="ticker__sum">${esc(rub(o.payout))}</span>
-      </span>`).join('');
+        <span class="ticker__sum">${esc(first[1])}</span>
+      </span>`;
+    }).join('');
     $('#ticker').innerHTML = one + one;
   }
 
@@ -110,21 +98,18 @@
   /* ======================================================================
      3. Карточки
      ====================================================================== */
-  function cardHTML(o) {
-    const d = DIFF[o.difficulty] || DIFF.medium;
-    const badge = o.badge === 'hot' ? '<p class="card__badge badge--hot">Топ</p>'
-                : o.badge === 'new' ? '<p class="card__badge badge--new">Новый</p>' : '';
+  function specsHTML(o, cls) {
+    return `<dl class="${cls}">
+      ${(o.specs || []).map(([label, value]) => `
+        <div class="spec">
+          <dt>${esc(label)}</dt>
+          <dd>${esc(value)}</dd>
+        </div>`).join('')}
+    </dl>`;
+  }
 
-    const promo = o.promo ? `
-      <p class="card__promo">
-        Промокод <code translate="no">${esc(o.promo)}</code>
-        <button type="button" class="btn-copy" data-copy="${esc(o.promo)}"
-                aria-label="Копировать промокод ${esc(o.promo)} для оффера ${esc(o.brand)}">
-          <svg class="ico-copy" width="14" height="14" aria-hidden="true" focusable="false"><use href="#i-copy"/></svg>
-          <svg class="ico-check" width="14" height="14" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>
-          Копировать
-        </button>
-      </p>` : '';
+  function cardHTML(o) {
+    const tag = o.tag ? `<p class="card__badge">${esc(o.tag)}</p>` : '';
 
     return `
       <li class="card" data-id="${esc(o.id)}" data-cat="${esc(o.category)}">
@@ -135,31 +120,22 @@
             <p class="card__brand">${esc(o.brand)}</p>
             <h3 class="card__title">${esc(o.title)}</h3>
           </div>
-          ${badge}
+          ${tag}
         </div>
 
-        <dl class="card__meta">
-          <dt>Выплата</dt>
-          <dd><span class="payout">${esc(rub(o.payout))}${o.payoutNote ? `<span class="payout__note">${esc(o.payoutNote)}</span>` : ''}</span></dd>
-          <dt>Сложность</dt>
-          <dd><span class="diff">${d.label}</span></dd>
-          <dt>Время</dt>
-          <dd><time class="card__time" datetime="${esc(o.timeISO)}">${esc(o.timeLabel)}</time></dd>
-        </dl>
-
-        ${promo}
+        ${specsHTML(o, 'card__specs')}
 
         <div class="card__actions">
           <button class="btn btn--ghost" type="button" data-detail="${esc(o.id)}" aria-haspopup="dialog">
-            Подробнее<span class="vh"> об условиях оффера ${esc(o.brand)}</span>
+            Подробнее<span class="vh"> об условиях продукта «${esc(o.title)}» ${esc(o.brand)}</span>
           </button>
           <a class="btn btn--primary" href="${esc(o.url)}" target="_blank" rel="noopener sponsored">
-            Забрать<span class="vh"> бонус в ${esc(o.brand)}, откроется в новой вкладке</span>
+            К партнёру<span class="vh"> ${esc(o.brand)}, откроется в новой вкладке</span>
             <svg class="icon-ext" width="13" height="13" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg>
           </a>
         </div>
 
-        <p class="card__foot">${esc(o.payoutTerm || '')}</p>
+        <p class="card__foot">${esc(o.note || '')}</p>
       </li>`;
   }
 
@@ -167,7 +143,8 @@
     grid.innerHTML = items.map(cardHTML).join('');
     grid.querySelectorAll('.card').forEach((el) => {
       const o = byId.get(el.dataset.id);
-      el._haystack = [o.brand, o.title, catLabel.get(o.category), o.promo, o.short]
+      el._haystack = [o.brand, o.title, catLabel.get(o.category), o.short]
+        .concat((o.specs || []).map((s) => s[1]))
         .filter(Boolean).join(' ').toLowerCase();
       cards.push(el);
     });
@@ -188,11 +165,10 @@
     arr.sort((a, b) => {
       const x = byId.get(a.dataset.id), y = byId.get(b.dataset.id);
       switch (mode) {
-        case 'payout-asc':  return x.payout - y.payout;
-        case 'difficulty':  return (DIFF[x.difficulty].rank - DIFF[y.difficulty].rank) || (y.payout - x.payout);
-        case 'time':        return (minutes(x.timeISO) - minutes(y.timeISO)) || (y.payout - x.payout);
-        case 'new':         return items.indexOf(x) - items.indexOf(y);
-        default:            return y.payout - x.payout;
+        case 'rate': return (x.sortRate || 0) - (y.sortRate || 0);
+        case 'sum':  return (y.sortSum || 0) - (x.sortSum || 0);
+        case 'term': return (y.sortTerm || 0) - (x.sortTerm || 0);
+        default:     return items.indexOf(x) - items.indexOf(y);
       }
     });
     const active = document.activeElement;
@@ -236,7 +212,7 @@
 
     countEl.textContent = count === 0
       ? 'Ничего не найдено'
-      : `Показано ${count} ${wordOffers(count)} из ${items.length}`;
+      : `Показано ${count} ${wordItems(count)} из ${items.length}`;
 
     grid.hidden = count === 0;
     emptyEl.hidden = count !== 0;
@@ -248,7 +224,7 @@
     const sortText = sortEl.options[sortEl.selectedIndex].text;
     const msg = count === 0
       ? 'Ничего не найдено. Измените запрос или сбросьте фильтры.'
-      : `Найдено ${count} ${wordOffers(count)}. Сортировка: ${sortText}.`;
+      : `Найдено ${count} ${wordItems(count)}. Сортировка: ${sortText}.`;
 
     if (o.silent) { lastAnnounced = msg; return; }
     announce(msg, o.trigger === 'search' ? SEARCH_DEBOUNCE : CONTROL_DEBOUNCE);
@@ -280,50 +256,13 @@
   }
 
   /* ======================================================================
-     5. Промокод в буфер обмена
-     ====================================================================== */
-  let hideTimer = null, lastToast = null, lastToastAt = 0;
-
-  function copyText(text) {
-    if (navigator.clipboard && window.isSecureContext) {
-      return navigator.clipboard.writeText(text);
-    }
-    /* запасной путь для http-хостинга, где Clipboard API недоступен */
-    return new Promise((resolve, reject) => {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.setAttribute('readonly', '');
-      ta.style.cssText = 'position:fixed;top:0;left:-9999px';
-      document.body.appendChild(ta);
-      ta.select();
-      const ok = document.execCommand && document.execCommand('copy');
-      document.body.removeChild(ta);
-      ok ? resolve() : reject(new Error('copy failed'));
-    });
-  }
-
-  function showToast(msg) {
-    toast.textContent = msg;
-    toast.classList.add('is-visible');
-    clearTimeout(hideTimer);
-    hideTimer = setTimeout(() => toast.classList.remove('is-visible'), 4000);
-
-    const now = Date.now();
-    if (msg === lastToast && now - lastToastAt < 1000) return;
-    lastToast = msg; lastToastAt = now;
-    srToast.textContent = '';
-    setTimeout(() => { srToast.textContent = msg; }, 60);
-  }
-
-  /* ======================================================================
-     6. Модальное окно оффера
+     5. Карточка продукта в модальном окне
      ====================================================================== */
   let lastTrigger = null;
 
   function openOffer(id, trigger) {
     const o = byId.get(id);
     if (!o || dlg.open) return;
-    const d = DIFF[o.difficulty] || DIFF.medium;
 
     lastTrigger = trigger;
     dlgBrand.textContent = o.brand;
@@ -332,33 +271,23 @@
     dlgBody.innerHTML = `
       <p class="dlg__lead">${esc(o.short)}</p>
 
-      <dl class="dlg__facts">
-        <dt>Выплата</dt>
-        <dd><span class="payout">${esc(rub(o.payout))}</span></dd>
-        <dt>Сложность</dt>
-        <dd><span class="diff">${d.label}</span></dd>
-        <dt>Время</dt>
-        <dd><time class="card__time" datetime="${esc(o.timeISO)}">${esc(o.timeLabel)}</time></dd>
-      </dl>
+      ${specsHTML(o, 'dlg__facts')}
 
-      <h3>Как получить</h3>
-      <ol>${(o.steps || []).map((s) => `<li>${esc(s)}</li>`).join('')}</ol>
-
-      <h3>Условия</h3>
+      <h3>На что обратить внимание</h3>
       <ul class="terms">${(o.terms || []).map((s) => `<li>${esc(s)}</li>`).join('')}</ul>
 
-      ${o.payoutTerm ? `<p class="dlg__term">${esc(o.payoutTerm)}</p>` : ''}
+      <h3>Как оформить</h3>
+      <ol>${(o.steps || []).map((s) => `<li>${esc(s)}</li>`).join('')}</ol>
+
+      ${o.note ? `<p class="dlg__term">${esc(o.note)}</p>` : ''}
+
+      <p class="dlg__term">Значения со звёздочкой — ориентиры для сравнения. Окончательные условия
+      определяет партнёр и указывает их в договоре.</p>
     `;
 
     dlgFoot.innerHTML = `
-      ${o.promo ? `<button type="button" class="btn btn--ghost btn-copy" data-copy="${esc(o.promo)}"
-            aria-label="Копировать промокод ${esc(o.promo)} для оффера ${esc(o.brand)}">
-        <svg class="ico-copy" width="15" height="15" aria-hidden="true" focusable="false"><use href="#i-copy"/></svg>
-        <svg class="ico-check" width="15" height="15" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>
-        Промокод ${esc(o.promo)}
-      </button>` : ''}
       <a class="btn btn--primary" href="${esc(o.url)}" target="_blank" rel="noopener sponsored">
-        Забрать<span class="vh"> бонус в ${esc(o.brand)}, откроется в новой вкладке</span>
+        Перейти к партнёру<span class="vh"> ${esc(o.brand)}, откроется в новой вкладке</span>
         <svg class="icon-ext" width="13" height="13" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg>
       </a>`;
 
@@ -385,7 +314,7 @@
   function closeOffer() { dlg.close(); afterClose(); }
 
   /* ======================================================================
-     7. События
+     6. События
      ====================================================================== */
   function bind() {
     chipsBox.addEventListener('change', () => render({ trigger: 'control' }));
@@ -401,22 +330,9 @@
     $('#reset-filters').addEventListener('click', () => resetAll(offersH));
     resetTop.addEventListener('click', () => resetAll(offersH));
 
-    /* делегирование: карточки перерисовываются только один раз, но так надёжнее */
     document.addEventListener('click', (e) => {
       const detail = e.target.closest('[data-detail]');
       if (detail) { openOffer(detail.dataset.detail, detail); return; }
-
-      const copy = e.target.closest('[data-copy]');
-      if (copy) {
-        const code = copy.dataset.copy;
-        copyText(code).then(() => {
-          copy.classList.add('is-done');
-          setTimeout(() => copy.classList.remove('is-done'), 2000);
-          showToast('Скопировано: ' + code);
-        }).catch(() => showToast('Не удалось скопировать. Код: ' + code));
-        return;
-      }
-
       if (e.target.closest('[data-dialog-close]')) closeOffer();
     });
 
@@ -445,7 +361,7 @@
   }
 
   /* ======================================================================
-     8. Старт
+     7. Старт
      ====================================================================== */
   applySite();
   renderChips();
