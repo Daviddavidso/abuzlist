@@ -108,6 +108,15 @@
     </dl>`;
   }
 
+  /* Маркировка рекламы. Идентификатор erid выдаёт партнёрская сеть, и по
+     закону о рекламе он показывается рядом с предложением. Если у продукта
+     erid нет — блок не выводится. */
+  function eridHTML(o) {
+    return o.erid
+      ? `<p class="erid">Реклама · erid: <span translate="no">${esc(o.erid)}</span></p>`
+      : '';
+  }
+
   function cardHTML(o) {
     const tag = o.tag ? `<p class="card__badge">${esc(o.tag)}</p>` : '';
 
@@ -136,6 +145,7 @@
         </div>
 
         <p class="card__foot">${esc(o.note || '')}</p>
+        ${eridHTML(o)}
       </li>`;
   }
 
@@ -283,6 +293,8 @@
 
       <p class="dlg__term">Значения со звёздочкой — ориентиры для сравнения. Окончательные условия
       определяет партнёр и указывает их в договоре.</p>
+
+      ${eridHTML(o)}
     `;
 
     dlgFoot.innerHTML = `

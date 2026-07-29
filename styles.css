@@ -479,6 +479,10 @@ input:focus-visible,select:focus-visible{outline-offset:1px}
 
 .card__foot{margin-block-start:10px;font-size:11.5px;color:var(--text-muted)}
 
+/* маркировка рекламы — обязательный, но служебный текст: мелкий и приглушённый */
+.erid{margin-block-start:6px;font-size:11px;color:var(--text-muted);letter-spacing:.01em}
+.dlg .erid{margin-block-start:14px}
+
 /* пустое состояние */
 .empty{
   padding:64px 24px;text-align:center;
