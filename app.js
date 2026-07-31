@@ -73,7 +73,9 @@
       const first = (o.specs && o.specs[0]) || ['', ''];
       return `
       <span class="ticker__item">
-        <span class="ticker__mono" style="background:${esc(o.tile || '#12100f')};color:${esc(o.tileInk || '#fff')}">${esc(o.mono || '')}</span>
+        ${o.logo
+          ? `<span class="ticker__logo"><img src="${esc(o.logo)}" alt="" loading="lazy" decoding="async"></span>`
+          : `<span class="ticker__mono" style="background:${esc(o.tile || '#12100f')};color:${esc(o.tileInk || '#fff')}">${esc(o.mono || '')}</span>`}
         ${esc(o.brand)}
         <span class="ticker__sum">${esc(first[1])}</span>
       </span>`;
@@ -117,20 +119,27 @@
       : '';
   }
 
+  /* Логотип партнёра. Если картинки нет — показываем монограмму из поля mono,
+     так карточка не разваливается. Логотип декоративный: название банка стоит
+     текстом рядом, поэтому alt пустой. */
+  function brandMark(o) {
+    return o.logo
+      ? `<span class="card__logo"><img src="${esc(o.logo)}" alt="" loading="lazy" decoding="async"></span>`
+      : `<span class="card__monogram" aria-hidden="true"
+             style="background:${esc(o.tile || '#12100f')};color:${esc(o.tileInk || '#ffffff')}">${esc(o.mono || '')}</span>`;
+  }
+
   function cardHTML(o) {
     const tag = o.tag ? `<p class="card__badge">${esc(o.tag)}</p>` : '';
 
     return `
       <li class="card" data-id="${esc(o.id)}" data-cat="${esc(o.category)}">
         <div class="card__top">
-          <div class="card__monogram" aria-hidden="true"
-               style="background:${esc(o.tile || '#12100f')};color:${esc(o.tileInk || '#ffffff')}">${esc(o.mono || '')}</div>
-          <div>
-            <p class="card__brand">${esc(o.brand)}</p>
-            <h3 class="card__title">${esc(o.title)}</h3>
-          </div>
+          ${brandMark(o)}
           ${tag}
         </div>
+        <p class="card__brand">${esc(o.brand)}</p>
+        <h3 class="card__title">${esc(o.title)}</h3>
 
         ${specsHTML(o, 'card__specs')}
 
@@ -279,6 +288,7 @@
     dlgTitle.textContent = o.title;
 
     dlgBody.innerHTML = `
+      ${o.logo ? `<span class="dlg__logo"><img src="${esc(o.logo)}" alt="" decoding="async"></span>` : ''}
       <p class="dlg__lead">${esc(o.short)}</p>
 
       ${specsHTML(o, 'dlg__facts')}

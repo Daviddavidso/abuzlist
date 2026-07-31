@@ -67,6 +67,7 @@ const PRODUCTS = [
 
   {
     id: 'crediteurope',
+    logo: 'logos/crediteurope.jpg',
     brand: 'Кредит Европа Банк',
     mono: 'КЕ',
     tile: '#003d7d', tileInk: '#ffffff',
@@ -102,6 +103,7 @@ const PRODUCTS = [
 
   {
     id: 'vtb-debit',
+    logo: 'logos/vtb-debit.jpg',
     brand: 'ВТБ',
     mono: 'ВТ',
     tile: '#0a2896', tileInk: '#ffffff',
@@ -134,6 +136,7 @@ const PRODUCTS = [
 
   {
     id: 'ozon-debit',
+    logo: 'logos/ozon-debit.jpg',
     brand: 'Ozon Банк',
     mono: 'OZ',
     tile: '#005bff', tileInk: '#ffffff',
@@ -166,6 +169,7 @@ const PRODUCTS = [
 
   {
     id: 'akbars-debit',
+    logo: 'logos/akbars-debit.jpg',
     brand: 'Ак Барс',
     mono: 'АБ',
     tile: '#009b3a', tileInk: '#ffffff',
@@ -198,6 +202,7 @@ const PRODUCTS = [
 
   {
     id: 'ubrir-debit',
+    logo: 'logos/ubrir-debit.jpg',
     brand: 'УБРиР',
     mono: 'УБ',
     tile: '#e2231a', tileInk: '#ffffff',
@@ -230,6 +235,7 @@ const PRODUCTS = [
 
   {
     id: 'otp-debit',
+    logo: 'logos/otp-debit.jpg',
     brand: 'ОТП Банк',
     mono: 'ОТ',
     tile: '#8bc53f', tileInk: '#12100f',
@@ -263,7 +269,41 @@ const PRODUCTS = [
   /* ---------- Микрозаймы ---------- */
 
   {
+    id: 'zaymer',
+    logo: 'logos/zaymer.jpg',
+    brand: 'Займер',
+    mono: 'ЗМ',
+    tile: '#3d9e3f', tileInk: '#ffffff',
+    title: 'Займ на карту',
+    category: 'mfo',
+    specs: [
+      ['Ставка*', 'от 0% первый заём'],
+      ['Сумма*', 'до 30 000 ₽'],
+      ['Срок*', 'до 30 дней'],
+      ['Решение*', 'от 1 минуты'],
+    ],
+    sortRate: 0, sortSum: 30000, sortTerm: 30,
+    tag: 'Первый заём 0%',
+    url: 'https://t.fincpanetwork.ru/click/80683/922?erid=2VtzqvJnkWA',
+    erid: '2VtzqvJnkWA',
+    short: 'Микрозайм с полностью автоматической выдачей: заявку обрабатывает робот, участие оператора не требуется. Новым клиентам первый заём выдают под 0%.',
+    terms: [
+      'Нулевая ставка — только первый заём и только при возврате в срок.',
+      'Решение принимает автоматический скоринг, без звонков.',
+      'Новым клиентам сумма обычно ниже максимальной.',
+    ],
+    steps: [
+      'Перейди на сайт партнёра по кнопке.',
+      'Заполни анкету и укажи карту для перевода.',
+      'Дождись решения — оно приходит автоматически.',
+      'Верни заём в срок, чтобы не платить неустойку.',
+    ],
+    note: 'ПСК до 292% годовых · возврат в срок обязателен',
+  },
+
+  {
     id: 'alfa-dengi',
+    logo: 'logos/alfa-dengi.jpg',
     brand: 'Альфа-Деньги',
     mono: 'АД',
     tile: '#ef3124', tileInk: '#ffffff',
@@ -297,6 +337,7 @@ const PRODUCTS = [
 
   {
     id: 'moneyman',
+    logo: 'logos/moneyman.jpg',
     brand: 'MoneyMan',
     mono: 'MM',
     tile: '#12100f', tileInk: '#ffffff',
@@ -310,8 +351,8 @@ const PRODUCTS = [
     ],
     sortRate: 0, sortSum: 100000, sortTerm: 126,
     tag: 'Первый заём 0%',
-    url: 'https://u-cpa.ru/offer/rs/2f7m19w2gnnli/11mb8h60kmi7v/?partner=256319&erid=2SDnjdpnedr&platform_id=41403',
-    erid: '2SDnjdpnedr',
+    url: 'https://t.fincpanetwork.ru/click/80683/101/1?erid=2W5zFGacKGm',
+    erid: '2W5zFGacKGm',
     short: 'Микрозайм на карту с решением за несколько минут. Новым клиентам первый заём выдают под 0% при возврате в срок.',
     terms: [
       'Нулевая ставка — только первый заём и только при возврате в срок.',
@@ -330,6 +371,7 @@ const PRODUCTS = [
 
   {
     id: 'joymoney',
+    logo: 'logos/joymoney.jpg',
     brand: 'Joymoney',
     mono: 'JM',
     tile: '#1a73e8', tileInk: '#ffffff',
@@ -363,6 +405,7 @@ const PRODUCTS = [
 
   {
     id: 'oneclickmoney',
+    logo: 'logos/oneclickmoney.jpg',
     brand: 'OneClickMoney',
     mono: 'OC',
     tile: '#f5a300', tileInk: '#12100f',
@@ -395,6 +438,7 @@ const PRODUCTS = [
 
   {
     id: 'svoi-lyudi',
+    logo: 'logos/svoi-lyudi.jpg',
     brand: 'Свои Люди',
     mono: 'СЛ',
     tile: '#f5a623', tileInk: '#12100f',
@@ -428,6 +472,7 @@ const PRODUCTS = [
 
   {
     id: 'platiza',
+    logo: 'logos/platiza.jpg',
     brand: 'Platiza',
     mono: 'PL',
     tile: '#43b02a', tileInk: '#ffffff',
@@ -460,6 +505,7 @@ const PRODUCTS = [
 
   {
     id: 'bystrodengi',
+    logo: 'logos/bystrodengi.jpg',
     brand: 'Быстроденьги',
     mono: 'БД',
     tile: '#0072bc', tileInk: '#ffffff',
@@ -493,6 +539,7 @@ const PRODUCTS = [
 
   {
     id: 'turbozaim',
+    logo: 'logos/turbozaim.jpg',
     brand: 'Турбозайм',
     mono: 'ТЗ',
     tile: '#e30613', tileInk: '#ffffff',
@@ -525,6 +572,7 @@ const PRODUCTS = [
 
   {
     id: 'srochnodengi',
+    logo: 'logos/srochnodengi.jpg',
     brand: 'СрочноДеньги',
     mono: 'СД',
     tile: '#c8d400', tileInk: '#12100f',
@@ -557,6 +605,7 @@ const PRODUCTS = [
 
   {
     id: 'rocketman',
+    logo: 'logos/rocketman.jpg',
     brand: 'RocketMan',
     mono: 'RM',
     tile: '#ff4d2d', tileInk: '#ffffff',
@@ -589,6 +638,7 @@ const PRODUCTS = [
 
   {
     id: 'umnye-nalichnye',
+    logo: 'logos/umnye-nalichnye.jpg',
     brand: 'Умные наличные',
     mono: 'УН',
     tile: '#2f6fed', tileInk: '#ffffff',
@@ -602,8 +652,8 @@ const PRODUCTS = [
     ],
     sortRate: 0.8, sortSum: 30000, sortTerm: 30,
     tag: null,
-    url: 'https://u-cpa.ru/offer/rs/cw7ayux4qnjd/58scaykftfru/?partner=256319&erid=2SDnjePDR6f&platform_id=41403',
-    erid: '2SDnjePDR6f',
+    url: 'https://t.fincpanetwork.ru/click/80683/241?erid=LjN8K54Q9',
+    erid: 'LjN8K54Q9',
     short: 'Короткий заём на банковскую карту с оформлением онлайн по паспорту.',
     terms: [
       'Нужен паспорт РФ и именная банковская карта.',
@@ -621,6 +671,7 @@ const PRODUCTS = [
 
   {
     id: 'maxcredit',
+    logo: 'logos/maxcredit.jpg',
     brand: 'Макс.Кредит',
     mono: 'МК',
     tile: '#e30613', tileInk: '#ffffff',
@@ -634,8 +685,8 @@ const PRODUCTS = [
     ],
     sortRate: 0.8, sortSum: 30000, sortTerm: 30,
     tag: null,
-    url: 'https://u-cpa.ru/offer/rs/21yd3v7kmakrn/3djmgjlb309em/?partner=256319&erid=2SDnje5MAdY&platform_id=41403',
-    erid: '2SDnje5MAdY',
+    url: 'https://t.fincpanetwork.ru/click/80683/106?erid=LjN8KN99W',
+    erid: 'LjN8KN99W',
     short: 'Короткий заём на именную банковскую карту. Есть продление договора и пересчёт процентов при досрочном возврате.',
     terms: [
       'Деньги переводят только на именную карту МИР, Visa или Mastercard.',
@@ -654,6 +705,7 @@ const PRODUCTS = [
 
   {
     id: 'dengi-na-dom',
+    logo: 'logos/dengi-na-dom.jpg',
     brand: 'Деньги на дом',
     mono: 'ДД',
     tile: '#f0c419', tileInk: '#12100f',
@@ -667,8 +719,8 @@ const PRODUCTS = [
     ],
     sortRate: 0.8, sortSum: 20000, sortTerm: 30,
     tag: 'Наличными',
-    url: 'https://u-cpa.ru/offer/rs/2ainv19neaafo/b3bhb8kl1ocw/?partner=256319&erid=2SDnjdr8aMy&platform_id=41403',
-    erid: '2SDnjdr8aMy',
+    url: 'https://t.fincpanetwork.ru/click/80683/864?erid=2W5zFJ91CL9',
+    erid: '2W5zFJ91CL9',
     short: 'Заём с доставкой наличных курьером: заявка подаётся онлайн, деньги привозят на дом за один-два дня.',
     terms: [
       'Деньги выдаёт курьер наличными, карта не нужна.',
