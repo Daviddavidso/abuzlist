@@ -67,7 +67,7 @@ const PRODUCTS = [
 
   {
     id: 'crediteurope',
-    logo: 'logos/crediteurope.jpg',
+    logo: 'logos/crediteurope.svg',
     brand: 'Кредит Европа Банк',
     mono: 'КЕ',
     tile: '#003d7d', tileInk: '#ffffff',

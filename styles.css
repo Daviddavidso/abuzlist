@@ -325,7 +325,7 @@ input:focus-visible,select:focus-visible{outline-offset:1px}
   inline-size:64px;block-size:30px;padding:3px 5px;
   background:#fff;border-radius:7px;overflow:hidden;
 }
-.ticker__logo img{max-inline-size:100%;max-block-size:100%;object-fit:contain}
+.ticker__logo img{inline-size:54px;block-size:24px;object-fit:contain;object-position:center}
 .ticker__mono{
   inline-size:30px;block-size:30px;flex:none;
   display:grid;place-items:center;border-radius:8px;
@@ -455,11 +455,17 @@ input:focus-visible,select:focus-visible{outline-offset:1px}
    поэтому кладём их в общую белую рамку и вписываем целиком. */
 .card__logo{
   display:grid;place-items:center;flex:none;
-  inline-size:112px;block-size:44px;padding:5px 8px;
+  inline-size:112px;block-size:58px;padding:6px 8px;
   background:#fff;border:1px solid var(--border-hairline);border-radius:9px;
   overflow:hidden;
 }
-.card__logo img{max-inline-size:100%;max-block-size:100%;inline-size:auto;block-size:auto;object-fit:contain}
+/* Размеры картинки заданы в пикселях по внутренней области плитки, а вписывание
+   отдано object-fit. Проценты здесь ненадёжны: в grid-элементе процентная высота
+   не разрешается, картинка считалась по пропорции и вылезала за плитку. */
+.card__logo img{
+  inline-size:96px;block-size:46px;
+  object-fit:contain;object-position:center;
+}
 
 .card__monogram{
   inline-size:44px;block-size:44px;flex:none;
@@ -631,10 +637,10 @@ input:focus-visible,select:focus-visible{outline-offset:1px}
 .dlg__body{padding:20px 22px 8px}
 .dlg__logo{
   display:grid;place-items:center;
-  inline-size:140px;block-size:54px;padding:6px 10px;margin-block-end:16px;
+  inline-size:150px;block-size:76px;padding:8px 10px;margin-block-end:16px;
   background:#fff;border:1px solid var(--border-hairline);border-radius:10px;overflow:hidden;
 }
-.dlg__logo img{max-inline-size:100%;max-block-size:100%;object-fit:contain}
+.dlg__logo img{inline-size:130px;block-size:60px;object-fit:contain;object-position:center}
 .dlg__lead{font-size:15px;color:var(--text-body)}
 
 .dlg__facts{
