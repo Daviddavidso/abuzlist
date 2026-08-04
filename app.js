@@ -92,7 +92,7 @@
       if (!n) return '';
       return `<span class="chip-item">
         <input class="chip__input" type="radio" name="category" id="cat-${esc(c.id)}" value="${esc(c.id)}"${c.id === 'all' ? ' checked' : ''}>
-        <label class="chip" for="cat-${esc(c.id)}">${esc(c.label)} <span class="chip__count">${n}</span></label>
+        <label class="chip" for="cat-${esc(c.id)}">${esc(c.label)} <span class="chip__count">${n}</span><span class="vh"> ${wordItems(n)}</span></label>
       </span>`;
     }).join(''));
   }
@@ -139,7 +139,7 @@
           ${tag}
         </div>
         <p class="card__brand">${esc(o.brand)}</p>
-        <h3 class="card__title">${esc(o.title)}</h3>
+        <h3 class="card__title">${esc(o.title)}<span class="vh"> — ${esc(o.brand)}</span></h3>
 
         ${specsHTML(o, 'card__specs')}
 
@@ -184,7 +184,13 @@
     arr.sort((a, b) => {
       const x = byId.get(a.dataset.id), y = byId.get(b.dataset.id);
       switch (mode) {
-        case 'rate': return (x.sortRate || 0) - (y.sortRate || 0);
+        /* sortRate: null — «ставка неприменима» (карты). Такие уходят в конец,
+           иначе они смешиваются с настоящими 0%. */
+        case 'rate': {
+          const rx = x.sortRate == null ? Infinity : x.sortRate;
+          const ry = y.sortRate == null ? Infinity : y.sortRate;
+          return rx - ry;
+        }
         case 'sum':  return (y.sortSum || 0) - (x.sortSum || 0);
         case 'term': return (y.sortTerm || 0) - (x.sortTerm || 0);
         default:     return items.indexOf(x) - items.indexOf(y);
@@ -215,11 +221,13 @@
     return visible;
   }
 
-  function announce(msg, delay) {
+  /* key — состояние фильтров, а не текст. Иначе два разных фильтра с одинаковым
+     числом предложений дают одинаковую строку, и смена фильтра не объявляется. */
+  function announce(msg, delay, key) {
     clearTimeout(timer);
     timer = setTimeout(() => {
-      if (msg === lastAnnounced) return;
-      lastAnnounced = msg;
+      if (key === lastAnnounced) return;
+      lastAnnounced = key;
       srStatus.textContent = msg;
     }, delay);
   }
@@ -241,12 +249,16 @@
     syncURL();
 
     const sortText = sortEl.options[sortEl.selectedIndex].text;
+    /* Название категории в начале — при сбросе фильтров радио переключается
+       программно, и без него пользователь не услышит, что категория сменилась. */
+    const scope = catLabel.get(currentCat()) || 'Все продукты';
     const msg = count === 0
-      ? 'Ничего не найдено. Измените запрос или сбросьте фильтры.'
-      : `Найдено ${count} ${wordItems(count)}. Сортировка: ${sortText}.`;
+      ? `${scope}: ничего не найдено. Измените запрос или сбросьте фильтры.`
+      : `${scope}: найдено ${count} ${wordItems(count)}. Сортировка: ${sortText}.`;
+    const state = [currentCat(), q.value.trim(), sortEl.value, count].join('|');
 
-    if (o.silent) { lastAnnounced = msg; return; }
-    announce(msg, o.trigger === 'search' ? SEARCH_DEBOUNCE : CONTROL_DEBOUNCE);
+    if (o.silent) { lastAnnounced = state; return; }
+    announce(msg, o.trigger === 'search' ? SEARCH_DEBOUNCE : CONTROL_DEBOUNCE, state);
   }
 
   /* адрес страницы — чтобы можно было дать ссылку сразу на категорию */
@@ -262,7 +274,16 @@
     const p = new URLSearchParams(location.search);
     const cat = p.get('cat');
     const radio = cat && chipsBox.querySelector(`input[value="${CSS.escape(cat)}"]`);
-    if (radio) radio.checked = true;
+    if (radio) {
+      radio.checked = true;
+      /* На узком экране лента чипов прокручивается: без этого выбранная
+         категория остаётся за правым краем и выглядит как невыбранная. */
+      const label = chipsBox.querySelector(`label[for="${CSS.escape(radio.id)}"]`);
+      if (label) {
+        const shift = label.getBoundingClientRect().left - chipsBox.getBoundingClientRect().left;
+        chipsBox.scrollLeft = Math.max(0, chipsBox.scrollLeft + shift - 16);
+      }
+    }
     if (p.get('q')) q.value = p.get('q');
   }
 

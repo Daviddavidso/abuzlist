@@ -392,7 +392,9 @@ input:focus-visible,select:focus-visible{outline-offset:1px}
   background:var(--chip-bg-selected);color:var(--chip-text-selected);
   border-color:var(--chip-border-selected);border-width:2px;padding:8px 14px;font-weight:500;
 }
-.chip__input:checked + .chip::before{content:"✓";font-size:12px;line-height:1}
+/* content: "✓" / "" — галочка декоративная, в доступное имя чипа не попадает:
+   роль radio и так сообщает «выбрано». */
+.chip__input:checked + .chip::before{content:"✓" / "";font-size:12px;line-height:1}
 .chip__input:checked + .chip .chip__count{color:#dbe7fb}
 
 .chip__input:focus + .chip{outline:3px solid var(--focus-ring);outline-offset:2px}

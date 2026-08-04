@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Сравнение кредитов, карт и займов — финвитрина</title>
-<meta name="description" content="Информационный сервис сравнения банковских продуктов: кредиты наличными, дебетовые карты и микрозаймы. Ставка, сумма, срок и время решения в одном формате.">
+<meta name="description" content="Информационный сервис сравнения банковских продуктов: кредитные карты, дебетовые карты и микрозаймы. Ставка, сумма, срок и время решения в одном формате.">
 <meta name="theme-color" content="#12100f">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" as="font" type="font/woff2" href="fonts/onest-cyrillic-400.woff2" crossorigin>
 <link rel="stylesheet" href="fonts/onest.css">
-<link rel="stylesheet" href="styles.css?v=3">
+<link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
 
@@ -87,7 +87,7 @@
       <h1>Банки и МФО<br><span class="hero__outline">в одной таблице</span></h1>
 
       <p class="lead">
-        <b id="hero-count">18</b> предложений банков и МФО в одном формате: ставка, сумма, срок
+        <b id="hero-count">26</b> предложений банков и МФО в одном формате: ставка, сумма, срок
         и время решения. Заявку вы оформляете на сайте партнёра — мы только показываем условия рядом.
       </p>
 
@@ -156,7 +156,7 @@
 
       <div class="empty" id="empty-state" hidden>
         <p class="empty__title">По этим условиям предложений нет</p>
-        <p class="empty__sub">Попробуйте другую категорию или очистите поиск.</p>
+        <p class="empty__sub">Измените запрос или сбросьте фильтры.</p>
         <button type="button" id="reset-filters" class="btn btn--primary">Сбросить фильтры</button>
       </div>
 
@@ -176,7 +176,7 @@
         <li class="step">
           <span class="step__num" aria-hidden="true">01</span>
           <h3>Выберите категорию</h3>
-          <p>Кредит наличными, дебетовая карта или микрозайм — у каждого продукта свои параметры сравнения.</p>
+          <p>Кредитные карты, дебетовые карты, микрозаймы — у каждой категории свои параметры сравнения.</p>
         </li>
         <li class="step">
           <span class="step__num" aria-hidden="true">02</span>
@@ -287,7 +287,7 @@
   </div>
 </footer>
 
-<dialog id="offer-dialog" class="dlg" aria-labelledby="offer-dialog-title">
+<dialog id="offer-dialog" class="dlg" aria-labelledby="dlg-brand offer-dialog-title">
   <div class="dlg__head">
     <p class="dlg__eyebrow" id="dlg-brand"></p>
     <h2 id="offer-dialog-title" tabindex="-1">—</h2>
@@ -300,7 +300,7 @@
   <div class="dlg__foot" id="dlg-foot"></div>
 </dialog>
 
-<script src="data.js?v=3"></script>
-<script src="app.js?v=3" defer></script>
+<script src="data.js?v=4"></script>
+<script src="app.js?v=4" defer></script>
 </body>
 </html>
