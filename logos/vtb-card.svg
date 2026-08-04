@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 64" width="220" height="64" role="img" aria-label="ВТБ">
+  <rect width="220" height="64" fill="#ffffff"/>
+  <rect x="34" y="6" width="152" height="52" rx="10" fill="#0a2896"/>
+  <text x="110" y="43" text-anchor="middle" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="31" font-weight="700" letter-spacing="1" fill="#ffffff">ВТБ</text>
+</svg>

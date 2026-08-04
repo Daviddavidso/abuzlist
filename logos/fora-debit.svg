@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 64" width="220" height="64" role="img" aria-label="Фора-Банк">
+  <rect width="220" height="64" fill="#ffffff"/>
+  <circle cx="34" cy="32" r="15" fill="#b01226"/>
+  <path d="M28 24h13v5h-8v4h7v5h-7v8h-5z" fill="#ffffff"/>
+  <text x="58" y="34" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="23" font-weight="700" letter-spacing="-0.3" fill="#b01226">ФОРА</text>
+  <text x="58" y="55" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="600" letter-spacing="1.6" fill="#12100f">БАНК</text>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 64" width="220" height="64" role="img" aria-label="Уралсиб">
+  <rect width="220" height="64" fill="#ffffff"/>
+  <path d="M22 32c0-9 7-16 16-16 5 0 9 2 12 6-3 4-7 6-12 6 5 0 9 2 12 6-3 4-7 6-12 6-9 0-16-7-16-16z" fill="#3d3ea8"/>
+  <path d="M50 32c3-4 7-6 12-6 9 0 16 7 16 16s-7 16-16 16c-5 0-9-2-12-6 3-4 7-6 12-6-5 0-9-2-12-6z" fill="#6f5bd0" opacity=".9"/>
+  <text x="88" y="42" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="-0.3" fill="#2f2b7a">УРАЛСИБ</text>
+</svg>

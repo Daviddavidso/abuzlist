@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 64" width="220" height="64" role="img" aria-label="Альфа-Банк">
+  <rect width="220" height="64" fill="#ffffff"/>
+  <path d="M30 46 42 14h10l12 32h-11l-6-19-6 19z" fill="#d0271b"/>
+  <rect x="30" y="50" width="34" height="7" rx="3.5" fill="#d0271b"/>
+  <text x="76" y="34" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="-0.3" fill="#d0271b">АЛЬФА</text>
+  <text x="76" y="55" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="600" letter-spacing="1.5" fill="#12100f">БАНК</text>
+</svg>

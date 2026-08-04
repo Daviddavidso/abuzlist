@@ -106,6 +106,7 @@ const PRODUCTS = [
 
   {
     id: 'alfa-card',
+    logo: 'logos/alfa-card.svg',
     brand: 'Альфа-Банк',
     mono: 'АЛ',
     tile: '#c8102e', tileInk: '#ffffff',
@@ -139,6 +140,7 @@ const PRODUCTS = [
 
   {
     id: 'renaissance-card',
+    logo: 'logos/renaissance-card.svg',
     brand: 'Ренессанс Банк',
     mono: 'РН',
     tile: '#c9004c', tileInk: '#ffffff',
@@ -172,6 +174,7 @@ const PRODUCTS = [
 
   {
     id: 'vtb-card',
+    logo: 'logos/vtb-card.svg',
     brand: 'ВТБ',
     mono: 'ВТ',
     tile: '#0a2896', tileInk: '#ffffff',
@@ -205,6 +208,7 @@ const PRODUCTS = [
 
   {
     id: 'uralsib-card',
+    logo: 'logos/uralsib-card.svg',
     brand: 'Уралсиб',
     mono: 'УР',
     tile: '#33308c', tileInk: '#ffffff',
@@ -238,6 +242,7 @@ const PRODUCTS = [
 
   {
     id: 'yandex-split-card',
+    logo: 'logos/yandex-split-card.svg',
     brand: 'Яндекс Сплит',
     mono: 'ЯС',
     tile: '#cc2200', tileInk: '#ffffff',
@@ -273,6 +278,7 @@ const PRODUCTS = [
 
   {
     id: 'fora-debit',
+    logo: 'logos/fora-debit.svg',
     brand: 'Фора-Банк',
     mono: 'ФБ',
     tile: '#b01226', tileInk: '#ffffff',
